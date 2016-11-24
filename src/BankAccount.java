@@ -16,6 +16,15 @@ public class BankAccount {
 		_balance = balance;
 	}
 	
+	public void Deposit(BigDecimal amount)
+	{
+		// checks if the deposit amount is positive
+		if (amount.compareTo(BigDecimal.ZERO) > 0)
+		{
+			_balance.add(amount);
+		}
+	}
+	
 	public BigDecimal getBalance() 
 	{
 		return _balance;

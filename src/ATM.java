@@ -13,6 +13,8 @@ public class ATM {
 	
 	public static BankAccount currentAccount;
 	public static Screen atmScreen;
+	public static WithdrawalTray atmWithdrawalTray;
+	public static DepositSlot atmDepositSlot;
 	
 	private static void routeToMainMenu()
 	{
@@ -33,6 +35,7 @@ public class ATM {
 		routeMainSelection(mainSelection);
 	}
 	
+	// handles the main menu
 	private static void routeMainSelection(int mainSelection) 
 	{
 		switch(mainSelection)
@@ -61,7 +64,29 @@ public class ATM {
 	private static void routeToDepositMenu()
 	{
 		// TODO Auto-generated method stub
+		DepositMenu atmDepositMenu = new DepositMenu();
+		int depositMenuSelection;
+		depositMenuSelection = atmDepositMenu.displayMenu(atmScreen);
+		routeDepositMenuSelection(depositMenuSelection);
 		
+	}
+
+	private static void routeDepositMenuSelection(int depositMenuSelection)
+	{
+		 if(depositMenuSelection <= 0)
+		 {
+			 System.out.println("Deposit Cancelled. Returning to Main Menu.");
+			 routeToMainMenu();
+		 }
+		 else
+		 {
+			 BigDecimal depositAmount = new BigDecimal(depositMenuSelection);
+			 currentAccount.Deposit(depositAmount);
+			 
+			 // commit transaction to database
+			 AccountDataHelper helper = new AccountDataHelper();
+			 helper.updateAccountInfo(currentAccount);
+		 }
 	}
 
 	private static void routeToWithdrawalMenu()
