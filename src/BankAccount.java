@@ -44,5 +44,14 @@ public class BankAccount {
 	{
 		return _accountName;
 	}
+
+	public void withdraw(BigDecimal amount) {
+		// TODO Auto-generated method stub
+		if(amount.compareTo(BigDecimal.ZERO) > 0)
+		{
+			_balance = _balance.subtract(amount);
+		}
+
+	}
 	
 }

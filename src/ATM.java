@@ -72,20 +72,21 @@ public class ATM {
 		int depositMenuSelection;
 		depositMenuSelection = atmDepositMenu.displayMenu(atmScreen);
 		routeDepositMenuSelection(depositMenuSelection);
-		
+		//return to main menu
+		routeToMainMenu();
 	}
 
 	private static void routeDepositMenuSelection(int depositMenuSelection)
 	{
 		 if(depositMenuSelection <= 0)
 		 {
-			 System.out.println("Deposit Cancelled. Returning to Main Menu.");
+			 atmScreen.Display("Deposit Cancelled. Returning to Main Menu.");
 			 routeToMainMenu();
 		 }
 		 else
 		 {
 			 // TODO: Have this wait for two minutes for confirmation
-			 System.out.println("Thank you. Please insert envelope into tray...");
+			 atmScreen.Display("Thank you. Please insert envelope into tray...");
 			 atmDepositSlot.acceptDeposit();
 			 
 			 
@@ -97,16 +98,63 @@ public class ATM {
 			 helper.updateAccountInfo(currentAccount);
 			 
 			 //let the user know what happened.
-			 System.out.println("Deposit complete! Your balance is now: " + currencyFormat(currentAccount.getBalance()));
-			 System.out.println("Returning to main menu...");
-			 //return to main menu
-			 routeToMainMenu();
+			 atmScreen.Display("Deposit complete! Your balance is now: " + currencyFormat(currentAccount.getBalance()));
+			 atmScreen.Display("Returning to main menu...");
+			 
 		 }
 	}
 
 	private static void routeToWithdrawalMenu()
 	{
 		// TODO Auto-generated method stub
+		WithdrawalMenu atmWithdrawalMenu = new WithdrawalMenu();
+		
+		int withdrawalMenuSelection;
+		withdrawalMenuSelection =  atmWithdrawalMenu.displayMenu(atmScreen);
+		routeWithdrawalMenuSelection(withdrawalMenuSelection);
+		
+		//return to main menu
+		routeToMainMenu();
+	}
+
+	private static void routeWithdrawalMenuSelection(int withdrawalMenuSelection) {
+		// TODO Auto-generated method stub
+		BigDecimal withdrawalAmount = new BigDecimal(0);
+		
+		switch(withdrawalMenuSelection)
+		{
+			case 1:
+				withdrawalAmount = new BigDecimal(20);
+				break;
+			case 2:
+				withdrawalAmount = new BigDecimal(40);
+				break;
+			case 3:
+				withdrawalAmount = new BigDecimal(60);
+				break;
+			case 4:
+				withdrawalAmount = new BigDecimal(100);
+				break;
+			case 5:
+				withdrawalAmount = new BigDecimal(200);
+				break;
+			case 6:
+				atmScreen.Display("Withdrawal Cancelled. Returning to Main Menu.");
+				routeToMainMenu();
+				break;
+			
+		}
+		
+		atmScreen.Display("Thank you. Please take your cash below...");
+		atmWithdrawalTray.dispenseMoney();
+		currentAccount.withdraw(withdrawalAmount);
+		
+		AccountDataHelper helper = new AccountDataHelper();
+		helper.updateAccountInfo(currentAccount);
+		
+		atmScreen.Display("Withdrawal complete! Your balance is now: " + currencyFormat(currentAccount.getBalance()));
+		atmScreen.Display("Returning to main menu...");
+
 		
 	}
 
