@@ -1,6 +1,7 @@
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.util.Objects;
 
 public class ATM {
 
@@ -20,6 +21,7 @@ public class ATM {
 	public static Screen atmScreen;
 	public static WithdrawalTray atmWithdrawalTray;
 	public static DepositSlot atmDepositSlot;
+	private static boolean sessionAuthenticated;
 	
 	private static void routeToMainMenu()
 	{
@@ -33,11 +35,35 @@ public class ATM {
 			AccountDataHelper helper = new AccountDataHelper();
 			//set the current account based on what the helper passes back
 			currentAccount = helper.getAccount(enteredAccountNumber);
+			
+			//check if the current session is authenticated. If it's not, then we need to ask for a PIN:
+			if (!sessionAuthenticated)
+			{
+				String enteredPIN = atmMainMenu.PinAuthenticate(atmScreen);
+				if(Objects.equals(enteredPIN, currentAccount.getPIN()))
+				{
+					sessionAuthenticated = true;
+				}
+				else
+				{
+					atmScreen.Display("PIN authentication failed. Returning to main menu.");
+					currentAccount = null;
+					routeToMainMenu();
+				}
+			}
 		}
 		
-		int mainSelection;
-		mainSelection = atmMainMenu.displayMenu(atmScreen);
-		routeMainSelection(mainSelection);
+		if (currentAccount != null && sessionAuthenticated)
+		{
+			int mainSelection;
+			mainSelection = atmMainMenu.displayMenu(atmScreen);
+			routeMainSelection(mainSelection);
+		}
+		
+		else
+		{
+			routeToMainMenu();
+		}
 	}
 	
 	// handles the main menu

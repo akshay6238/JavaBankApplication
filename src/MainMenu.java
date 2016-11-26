@@ -19,6 +19,7 @@ public class MainMenu extends Menu
 
 		return selection;
 	}
+	
 	//Welcome method that gets account number from user
 	public String AccountAuthenticate(Screen atmScreen)
 	{   boolean validNum = false;
@@ -43,6 +44,7 @@ public class MainMenu extends Menu
 	public String PinAuthenticate(Screen atmScreen)
 	{ boolean validNum = false;
 		String pin="";
+		atmScreen.Display("Please enter your 5 digit pin number:");
 		while(validNum == false)
 		{
 			pin= super.input.next();
