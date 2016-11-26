@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 
 public class ATM {
@@ -91,6 +92,9 @@ public class ATM {
 			 
 			 
 			 BigDecimal depositAmount = new BigDecimal((double)depositMenuSelection / 100);
+			 
+			 //set the number of decimal places to 2 in order to not have floating point errors.
+			 depositAmount = depositAmount.setScale(2, RoundingMode.FLOOR);
 			 currentAccount.Deposit(depositAmount);
 			 
 			 // commit transaction to database
@@ -176,6 +180,7 @@ public class ATM {
 	// exits the application
 	private static void Exit()
 	{
+		atmScreen.Display("Thank you. Have a nice day!");
 		System.exit(0);
 	}
 
