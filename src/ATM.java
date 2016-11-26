@@ -5,8 +5,12 @@ public class ATM {
 
 	public static void main(String[] args) 
 	{ 
-		
+		// initialize classes
 		atmScreen = new Screen();
+	    atmWithdrawalTray = new WithdrawalTray();
+	    atmDepositSlot = new DepositSlot();
+	    
+	    // go to main menu
 		routeToMainMenu();
 		
 	}
@@ -80,12 +84,23 @@ public class ATM {
 		 }
 		 else
 		 {
-			 BigDecimal depositAmount = new BigDecimal(depositMenuSelection);
+			 // TODO: Have this wait for two minutes for confirmation
+			 System.out.println("Thank you. Please insert envelope into tray...");
+			 atmDepositSlot.acceptDeposit();
+			 
+			 
+			 BigDecimal depositAmount = new BigDecimal((double)depositMenuSelection / 100);
 			 currentAccount.Deposit(depositAmount);
 			 
 			 // commit transaction to database
 			 AccountDataHelper helper = new AccountDataHelper();
 			 helper.updateAccountInfo(currentAccount);
+			 
+			 //let the user know what happened.
+			 System.out.println("Deposit complete! Your balance is now: " + currencyFormat(currentAccount.getBalance()));
+			 System.out.println("Returning to main menu...");
+			 //return to main menu
+			 routeToMainMenu();
 		 }
 	}
 

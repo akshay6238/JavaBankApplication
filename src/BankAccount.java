@@ -21,7 +21,7 @@ public class BankAccount {
 		// checks if the deposit amount is positive
 		if (amount.compareTo(BigDecimal.ZERO) > 0)
 		{
-			_balance.add(amount);
+			_balance = _balance.add(amount);
 		}
 	}
 	
