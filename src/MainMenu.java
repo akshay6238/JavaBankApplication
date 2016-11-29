@@ -24,7 +24,7 @@ public class MainMenu extends Menu
 	public String AccountAuthenticate(Screen atmScreen)
 	{   boolean validNum = false;
 		String accountNum="";
-		atmScreen.Display( "Welcome, please enter valid 5 digit account number:");
+		atmScreen.Display( "Welcome, please enter your account number: ");
 		while(validNum == false)
 		{
 			accountNum= super.input.next();
@@ -35,16 +35,18 @@ public class MainMenu extends Menu
 				}
 			else
 				{
-					atmScreen.Display("Invalid account number, enter valid 5 digit account number:");
+				    atmScreen.Display("Invalid account number, enter a valid 5 digit account number: ");
 				}
 		}
 		return accountNum;
 	//pin screen	
 	}
+        
 	public String PinAuthenticate(Screen atmScreen)
-	{ boolean validNum = false;
+	{ 
+                boolean validNum = false;
 		String pin="";
-		atmScreen.Display("Please enter your 5 digit pin number:");
+		atmScreen.Display("Please enter your 5 digit pin number: ");
 		while(validNum == false)
 		{
 			pin= super.input.next();
@@ -55,7 +57,7 @@ public class MainMenu extends Menu
 				}
 			else
 				{
-					atmScreen.Display("Invalid pin number, enter valid 5 digit pin number:");
+					atmScreen.Display("Invalid pin number, enter valid 5 digit pin number: ");
 				}
 		}
 		

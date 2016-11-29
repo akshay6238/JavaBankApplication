@@ -34,7 +34,22 @@ public class ATM {
 			// create a data helper to access the account data
 			AccountDataHelper helper = new AccountDataHelper();
 			//set the current account based on what the helper passes back
+                        
 			currentAccount = helper.getAccount(enteredAccountNumber);
+                        
+                        atmScreen.Display(currentAccount.getAccountNumber());
+                        
+                        while (currentAccount.getAccountNumber().isEmpty() || currentAccount.getAccountNumber().equals("")) 
+                        {
+                            currentAccount = helper.getAccount(enteredAccountNumber);
+                            
+                           if (currentAccount.getAccountNumber().isEmpty() || currentAccount.getAccountNumber().equals("")) 
+                           {
+                               atmScreen.Display("That account number does not exist in our records, returning to the Main Menu.\n");
+                               
+                               enteredAccountNumber = atmMainMenu.AccountAuthenticate(atmScreen);
+                           }
+                        }
 			
 			//check if the current session is authenticated. If it's not, then we need to ask for a PIN:
 			if (!sessionAuthenticated)
