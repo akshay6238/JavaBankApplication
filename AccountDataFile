@@ -1,3 +1,6 @@
 AccountNumber,AccountName,PIN,Balance
-12345,John Smith,12345,80.00
+12345,John Smith,12345,100.00
 12346,John Smith,12345,100.00
+00000,Bob Jones,00100,500.00
+11111,Susan Nelson,11011,1000.00
+22222,James Thomas,22222,10000.00
