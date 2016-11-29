@@ -19,7 +19,8 @@ public class WithdrawalMenu extends Menu
 				selection=super.input.nextInt();
 				if (selection < 1 || selection > 6)
 				{
-					atmScreen.Display("Invalid selection");
+					atmScreen.Display("Invalid selection. Please choose one of the designated options.\n");
+                                        atmScreen.Display(menuText);
 				}
 			}
 		return selection;

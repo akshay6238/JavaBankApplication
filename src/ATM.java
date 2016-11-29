@@ -11,9 +11,12 @@ public class ATM {
 		atmScreen = new Screen();
 	    atmWithdrawalTray = new WithdrawalTray();
 	    atmDepositSlot = new DepositSlot();
+            
+            // initialize loading of cash dispenser at beginning of day with 500 $20 bills
+            atmWithdrawalTray.initializeAvailableBills();
 	    
 	    // go to main menu
-		routeToMainMenu();
+            routeToMainMenu();
 		
 	}
 	
@@ -56,10 +59,11 @@ public class ATM {
 				if(Objects.equals(enteredPIN, currentAccount.getPIN()))
 				{
 					sessionAuthenticated = true;
+                                        atmScreen.Display("Welcome, " + currentAccount.getAccountName() + ".\n");
 				}
 				else
 				{
-					atmScreen.Display("PIN authentication failed. Returning to main menu.");
+					atmScreen.Display("PIN authentication failed. Returning to Main Menu.\n");
 					currentAccount = null;
 					routeToMainMenu();
 				}
@@ -97,7 +101,7 @@ public class ATM {
 				Exit();
 				break;
 			default:
-				System.out.println("Invalid selection. Returning to main menu");
+				System.out.println("Invalid selection. Returning to Main Menu.\n");
 				routeToMainMenu();
 			
 		}
@@ -142,7 +146,7 @@ public class ATM {
 			 
 			 //let the user know what happened.
 			 atmScreen.Display("Deposit complete! Your balance is now: " + currencyFormat(currentAccount.getBalance()));
-			 atmScreen.Display("Returning to main menu...");
+			 atmScreen.Display("Returning to Main Menu...\n");
 			 
 		 }
 	}
@@ -182,35 +186,44 @@ public class ATM {
 				withdrawalAmount = new BigDecimal(200);
 				break;
 			case 6:
-				atmScreen.Display("Withdrawal Cancelled. Returning to Main Menu.");
+				atmScreen.Display("Withdrawal Cancelled. Returning to Main Menu.\n");
 				routeToMainMenu();
 				break;
 			
 		}
-                if (withdrawalAmount.compareTo(currentAccount.getBalance()) <= 0)
+		// Validation that acccount has enough funds and ATM has enough $20 bills
+                if (withdrawalAmount.compareTo(currentAccount.getBalance()) <= 0 && withdrawalAmount.divide(new BigDecimal(20)).compareTo(atmWithdrawalTray.getAvailableBills()) <= 0)
                 {
                     atmScreen.Display("Thank you. Please take your cash below...");
                     atmWithdrawalTray.dispenseMoney();
+                    
+                    atmWithdrawalTray.setAvailableBills(atmWithdrawalTray.getAvailableBills().subtract(withdrawalAmount.divide(new BigDecimal(20))));
+                    
                     currentAccount.withdraw(withdrawalAmount);
                     
                     AccountDataHelper helper = new AccountDataHelper();
                     helper.updateAccountInfo(currentAccount);
                     
                     atmScreen.Display("Withdrawal complete! Your balance is now: " + currencyFormat(currentAccount.getBalance()));
-                    atmScreen.Display("Returning to main menu...");
+                    atmScreen.Display("Returning to Main Menu...\n");
                 }
-                else 
+                else if (withdrawalAmount.divide(new BigDecimal(20)).compareTo(atmWithdrawalTray.getAvailableBills()) > 0) 
                 {
-                    atmScreen.Display("Insufficient Funds. Please choose a smaller amount to Withdraw.\n");
+                    atmScreen.Display("The ATM does not contain enough money to satisfy the requested amount, sorry for the inconvenience. Please choose a smaller amount to withdraw.\n");
+                    routeToWithdrawalMenu();                    
+                }
+                else
+                {
+                    atmScreen.Display("Insufficient Funds in your account. Please choose a smaller amount to Withdraw.\n");
                     routeToWithdrawalMenu();
-                }		
+                }
 	}
 
 	// outputs the balance and routes back to the main menu
 	private static void BalanceInquiry()
 	{
 		BigDecimal currentBalance = currentAccount.getBalance();
-		System.out.println("Your current balance is: " + currencyFormat(currentBalance));
+		System.out.println("Your current balance is: " + currencyFormat(currentBalance) + "\n");
 		routeToMainMenu();
 
 	}

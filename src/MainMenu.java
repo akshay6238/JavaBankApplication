@@ -13,7 +13,8 @@ public class MainMenu extends Menu
 			selection = super.input.nextInt();
 			if (selection < 1 || selection > 4)
 			{
-				atmScreen.Display("Invalid pick");
+				atmScreen.Display("Invalid selection. Please choose one of the designated options.\n");
+                                atmScreen.Display(menuText);
 			}
 		}
 
@@ -46,7 +47,7 @@ public class MainMenu extends Menu
 	{ 
                 boolean validNum = false;
 		String pin="";
-		atmScreen.Display("Please enter your 5 digit pin number: ");
+		atmScreen.Display("Please enter your pin number: ");
 		while(validNum == false)
 		{
 			pin= super.input.next();
@@ -57,7 +58,7 @@ public class MainMenu extends Menu
 				}
 			else
 				{
-					atmScreen.Display("Invalid pin number, enter valid 5 digit pin number: ");
+					atmScreen.Display("Invalid pin number, enter a valid 5 digit pin number: ");
 				}
 		}
 		
