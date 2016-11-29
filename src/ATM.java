@@ -37,15 +37,13 @@ public class ATM {
                         
 			currentAccount = helper.getAccount(enteredAccountNumber);
                         
-                        atmScreen.Display(currentAccount.getAccountNumber());
-                        
                         while (currentAccount.getAccountNumber().isEmpty() || currentAccount.getAccountNumber().equals("")) 
                         {
                             currentAccount = helper.getAccount(enteredAccountNumber);
                             
                            if (currentAccount.getAccountNumber().isEmpty() || currentAccount.getAccountNumber().equals("")) 
                            {
-                               atmScreen.Display("That account number does not exist in our records, returning to the Main Menu.\n");
+                               atmScreen.Display("That account number does not exist in our records. Returning to the Main Menu.\n");
                                
                                enteredAccountNumber = atmMainMenu.AccountAuthenticate(atmScreen);
                            }
@@ -189,18 +187,23 @@ public class ATM {
 				break;
 			
 		}
-		
-		atmScreen.Display("Thank you. Please take your cash below...");
-		atmWithdrawalTray.dispenseMoney();
-		currentAccount.withdraw(withdrawalAmount);
-		
-		AccountDataHelper helper = new AccountDataHelper();
-		helper.updateAccountInfo(currentAccount);
-		
-		atmScreen.Display("Withdrawal complete! Your balance is now: " + currencyFormat(currentAccount.getBalance()));
-		atmScreen.Display("Returning to main menu...");
-
-		
+                if (withdrawalAmount.compareTo(currentAccount.getBalance()) <= 0)
+                {
+                    atmScreen.Display("Thank you. Please take your cash below...");
+                    atmWithdrawalTray.dispenseMoney();
+                    currentAccount.withdraw(withdrawalAmount);
+                    
+                    AccountDataHelper helper = new AccountDataHelper();
+                    helper.updateAccountInfo(currentAccount);
+                    
+                    atmScreen.Display("Withdrawal complete! Your balance is now: " + currencyFormat(currentAccount.getBalance()));
+                    atmScreen.Display("Returning to main menu...");
+                }
+                else 
+                {
+                    atmScreen.Display("Insufficient Funds. Please choose a smaller amount to Withdraw.\n");
+                    routeToWithdrawalMenu();
+                }		
 	}
 
 	// outputs the balance and routes back to the main menu
