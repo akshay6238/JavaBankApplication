@@ -47,22 +47,16 @@ public class AccountDataHelper {
 		
 		catch (FileNotFoundException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
-		
-		//TODO: Handle this better (when an account is not found)
 		return new BankAccount("","","", new BigDecimal("0.00"));
-
 
 	}
 	
 	// takes in a BankAccount object and updates the relevant record in the data file based on the account number
 	public void updateAccountInfo(BankAccount account)
 	{
-		//TODO: Make this work.
 		try
 		{
 			Scanner file = new Scanner(new FileReader(ACCOUNT_DATA_FILE_PATH));
@@ -114,12 +108,10 @@ public class AccountDataHelper {
 		
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

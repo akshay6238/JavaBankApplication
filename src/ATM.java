@@ -113,7 +113,6 @@ public class ATM {
 	
 	private static void routeToDepositMenu()
 	{
-		// TODO Auto-generated method stub
 		DepositMenu atmDepositMenu = new DepositMenu();
 		int depositMenuSelection;
 		depositMenuSelection = atmDepositMenu.displayMenu(atmScreen);
@@ -131,7 +130,6 @@ public class ATM {
 		 }
 		 else
 		 {
-			 // TODO: Have this wait for two minutes for confirmation
 			 atmScreen.Display("Thank you. Please insert envelope into tray...");
 			 atmDepositSlot.acceptDeposit();
 			 
@@ -155,7 +153,6 @@ public class ATM {
 
 	private static void routeToWithdrawalMenu()
 	{
-		// TODO Auto-generated method stub
 		WithdrawalMenu atmWithdrawalMenu = new WithdrawalMenu();
 		
 		int withdrawalMenuSelection;
@@ -167,7 +164,6 @@ public class ATM {
 	}
 
 	private static void routeWithdrawalMenuSelection(int withdrawalMenuSelection) {
-		// TODO Auto-generated method stub
 		BigDecimal withdrawalAmount = new BigDecimal(0);
 		
 		switch(withdrawalMenuSelection)
