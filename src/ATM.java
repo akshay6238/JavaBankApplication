@@ -98,7 +98,9 @@ public class ATM {
 				routeToDepositMenu();
 				break;
 			case 4:
-				Exit();
+                                currentAccount = null;
+                                sessionAuthenticated = false;
+                                routeToMainMenu();
 				break;
 			default:
 				System.out.println("Invalid selection. Returning to Main Menu.\n");
